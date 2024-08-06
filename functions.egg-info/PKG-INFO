@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: functions
+Version: 0.0.1
+Summary: A test project using pybind11
+Home-page: https://github.com/RyanHung/python_example
+Author: Ryan Hung
+Author-email: rhung@ucsb.edu
+Requires-Python: >=3.10
+License-File: LICENSE
+Requires-Dist: pybind11>=2.10.0
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
