@@ -6,7 +6,11 @@ import os
 __version__ = "0.0.1"
 
 includes = [
-    "eigen-3.4.0"
+    "eigen-3.4.0",
+]
+
+libraries = [
+    "OpenBLAS"
 ]
 
 # The main interface is through Pybind11Extension.
@@ -23,8 +27,9 @@ ext_modules = [
         "_functions",
         ['src/main.cpp', 'src/core.cpp'],
         include_dirs=includes,
+        library_dirs = libraries,
         extra_compile_args=['-std=c++17', '-O3', '-march=native', '-fopenmp'],
-        extra_link_args = ['-fopenmp'],
+        extra_link_args = ['-fopenmp', '-l:libopenblas.a'],
         language='c++',
         # Example: passing in the version to the compiled code
         define_macros=[("VERSION_INFO", __version__)],
