@@ -1,3 +1,9 @@
+#define EIGEN_USE_BLAS
+
+extern "C" {
+    #include <cblas.h>  // CBLAS header for standard BLAS
+}
+
 #include <iostream>
 #include <Eigen/Core>
 #include <Eigen/SparseCore>
@@ -41,6 +47,28 @@ Eigen::Ref<Eigen::MatrixXd> testOpenMPThreads(Eigen::Ref<Eigen::MatrixXd> matrix
             matrix(i, j) = matrix(i, j) * 2;
         }
     }
+
+    return matrix;
+}
+
+Eigen::Ref<Eigen::MatrixXd> testBLAS(Eigen::Ref<Eigen::MatrixXd> matrix)
+{
+    Eigen::MatrixXd A = Eigen::MatrixXd::Random(matrix.rows(), matrix.cols());
+    Eigen::MatrixXd B = Eigen::MatrixXd::Random(matrix.rows(), matrix.cols());
+
+    double alpha = 1.0;  // Scaling factor for A * B
+    double beta = 0.0;   // Scaling factor for C
+
+    // Call CBLAS dgemm (double-precision general matrix-matrix multiplication)
+    cblas_dgemm(CblasRowMajor,  // Indicate row-major storage
+                CblasNoTrans,    // A is not transposed
+                CblasNoTrans,    // B is not transposed
+                matrix.rows(), matrix.cols(), matrix.cols(), // Matrix dimensions
+                alpha,            // alpha * A * B
+                A.data(), A.cols(),    // Pointer to A, leading dimension of A
+                B.data(), B.cols(),    // Pointer to B, leading dimension of B
+                beta,             // beta * C
+                matrix.data(), matrix.cols());   // Pointer to C, leading dimension of C
 
     return matrix;
 }

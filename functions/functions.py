@@ -15,3 +15,5 @@ def get_lambda_matrix(lam1, S):
 class TestClass:
     def testOpenMP(self, S):
         return _func.testOpenMPThreads(S)
+    def testBLAS(self, S):
+        return _func.testBLAS(S)
