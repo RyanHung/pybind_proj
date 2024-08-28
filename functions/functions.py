@@ -17,3 +17,5 @@ class TestClass:
         return _func.testOpenMPThreads(S)
     def testBLAS(self, S):
         return _func.testBLAS(S)
+    def testLAPACK(self, S, v):
+        return _func.testLAPACK(S, v)

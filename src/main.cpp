@@ -12,6 +12,8 @@ Eigen::Ref<Eigen::MatrixXd> testOpenMPThreads(Eigen::Ref<Eigen::MatrixXd> matrix
 
 Eigen::Ref<Eigen::MatrixXd> testBLAS(Eigen::Ref<Eigen::MatrixXd> matrix);
 
+Eigen::Ref<Eigen::VectorXd> testLAPACK(Eigen::Ref<Eigen::MatrixXd> matrix, Eigen::Ref<Eigen::VectorXd> result);
+
 PYBIND11_MODULE(_functions, m) {
     m.doc() = R"pbdoc(
         Pybind11 example plugin
@@ -36,6 +38,13 @@ PYBIND11_MODULE(_functions, m) {
     m.def(
         "testBLAS",
         &testBLAS,
+        R"pbdoc(
+            test function
+        )pbdoc");
+
+    m.def(
+        "testLAPACK",
+        &testLAPACK,
         R"pbdoc(
             test function
         )pbdoc");

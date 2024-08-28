@@ -10,7 +10,7 @@ includes = [
 ]
 
 libraries = [
-    "OpenBLAS"
+    "OpenBLAS",
 ]
 
 # The main interface is through Pybind11Extension.

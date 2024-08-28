@@ -1,8 +1,12 @@
 #define EIGEN_USE_BLAS
+#define EIGEN_USE_LAPACKE
 
 extern "C" {
     #include <cblas.h>  // CBLAS header for standard BLAS
 }
+
+#include <lapacke.h>
+
 
 #include <iostream>
 #include <Eigen/Core>
@@ -71,4 +75,23 @@ Eigen::Ref<Eigen::MatrixXd> testBLAS(Eigen::Ref<Eigen::MatrixXd> matrix)
                 matrix.data(), matrix.cols());   // Pointer to C, leading dimension of C
 
     return matrix;
+}
+
+Eigen::Ref<Eigen::VectorXd> testLAPACK(Eigen::Ref<Eigen::MatrixXd> matrix, Eigen::Ref<Eigen::VectorXd> result)
+{
+    int n = matrix.rows();
+
+    if (n != matrix.cols()) {
+        throw std::runtime_error("Matrix must be square for LAPACK dgesv routine.");
+    }
+
+    std::vector<int> piv(n);
+
+    //Note: will overwrite matrix, result
+    int info = LAPACKE_dgesv(LAPACK_ROW_MAJOR, n, 1, matrix.data(), n, piv.data(), result.data(), 1);
+
+    if(info != 0)
+        result = Eigen::VectorXd::Constant(n, -1);
+
+    return result;
 }
